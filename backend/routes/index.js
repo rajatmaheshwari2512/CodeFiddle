@@ -12,12 +12,19 @@ const directoryTree = require("directory-tree");
 router
   .get("/", function (req, res, next) {
     const id = uuid4();
-    fs.mkdir(path.resolve(`${__dirname}/playgrounds/${id}`), (err) => {
+    fs.mkdir(path.resolve(`${__dirname}/../playgrounds/${id}`), (err) => {
       if (err) {
         console.log(err);
         res.json({ error: err });
       } else {
-        exec("npm create vite@latest -- --template react")
+        console.log(
+          "cd ../playgrounds/ && npm create vite@latest " +
+            id +
+            " -- --template react"
+        );
+        exec("npm create vite@latest " + id + " -- --template react", {
+          cwd: path.resolve(`${__dirname}/../playgrounds/`),
+        })
           .then((resp) => {
             res.json({ playgroundId: id });
           })

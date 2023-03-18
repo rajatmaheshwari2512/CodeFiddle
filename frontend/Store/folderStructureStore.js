@@ -4,7 +4,7 @@ const folderStructureStore = create((set) => ({
   folderStructure: null,
   setFolderStructure: async (playgroundId) => {
     const response = await fetch(
-      `${process.env.VITE_BACKEND_URL}/api/tree/${playgroundId}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/tree/${playgroundId}`
     );
     set({ folderStructure: await response.json() });
   },

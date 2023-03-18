@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node app",
+    "dev": "nodemon app"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "directory-tree": "^3.5.1",
     "dockerode": "^3.3.5",
@@ -15,5 +17,8 @@
     "querystring": "^0.2.1",
     "uuid4": "^2.0.3",
     "websocket": "^1.0.34"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
   }
 }

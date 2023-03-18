@@ -1,10 +1,24 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import { LandingPage } from "../Pages/LandingPage";
+import { Playground } from "../Pages/Playground";
+
+const routes = [
+  {
+    path: "/",
+    element: <LandingPage />,
+  },
+  {
+    path: "playground/:playgroundId",
+    element: <Playground />,
+  },
+];
+
+const router = createBrowserRouter(routes);
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <RouterProvider router={router} />
+);

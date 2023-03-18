@@ -6,12 +6,14 @@ const logger = require("morgan");
 const WebSocketServer = require("websocket").server;
 const Docker = require("dockerode");
 const querystring = require("querystring");
+const cors = require("cors");
 
 const indexRouter = require("./routes/index");
 const handleWebSocketEvents = require("./utils/handleWebSocketEvents");
 
 const app = express();
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

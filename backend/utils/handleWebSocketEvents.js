@@ -2,12 +2,12 @@ const fs = require("fs");
 const path = require("path");
 
 const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
-  const pathToFileOrFolder = path.resolve(
+  const completePathToFileOrFolder = path.resolve(
     `${__dirname}/playgrounds/${id}/${pathToFileOrFolder}`
   );
   switch (type) {
     case "writeFile":
-      fs.writeFile(pathToFileOrFolder, data, (err) => {
+      fs.writeFile(completePathToFileOrFolder, data, (err) => {
         if (err) {
           console.log(err);
           const errMessage = {
@@ -29,7 +29,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
       });
       break;
     case "readFile":
-      fs.readFile(pathToFileOrFolder, (err, data) => {
+      fs.readFile(completePathToFileOrFolder, (err, data) => {
         if (err) {
           console.log(err);
           const errMessage = {
@@ -51,7 +51,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
       });
       break;
     case "deleteFile":
-      fs.unlink(pathToFileOrFolder, (err) => {
+      fs.unlink(completePathToFileOrFolder, (err) => {
         if (err) {
           console.log(err);
           const errMessage = {
@@ -73,7 +73,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
       });
       break;
     case "createFolder":
-      fs.mkdir(pathToFileOrFolder, (err) => {
+      fs.mkdir(completePathToFileOrFolder, (err) => {
         if (err) {
           console.log(err);
           const errMessage = {
@@ -95,7 +95,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
       });
       break;
     case "deleteFolder":
-      fs.rmdir(pathToFileOrFolder, { recursive: true }, (err) => {
+      fs.rmdir(completePathToFileOrFolder, { recursive: true }, (err) => {
         if (err) {
           console.log(err);
           const errMessage = {
