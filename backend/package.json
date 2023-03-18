@@ -8,6 +8,7 @@
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "directory-tree": "^3.5.1",
     "dockerode": "^3.3.5",
     "express": "~4.16.1",
     "morgan": "~1.9.1",
