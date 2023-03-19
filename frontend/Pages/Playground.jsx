@@ -3,7 +3,7 @@ import { Row, Col } from "antd";
 import { useParams } from "react-router-dom";
 
 import { FolderStructure } from "../Components/FolderStructure";
-import { Terminal } from "../Components/Terminal";
+import { Shell } from "../Components/Shell";
 import { EditorComponent } from "../Components/EditorComponent";
 import { EditorTabs } from "../Components/EditorTabs";
 
@@ -42,22 +42,25 @@ export const Playground = () => {
   return (
     ws && (
       <Row>
-        <div
+        <Col
           style={{
             paddingRight: "10px",
-            minWidth: "12vw",
-            maxWidth: "15vw",
+            // minWidth: "12vw",
+            // maxWidth: "15vw",
             minHeight: "100vh",
             backgroundColor: "#22212c",
           }}
+          xxl={3}
         >
           <FolderStructure />
-        </div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <EditorTabs />
-          <EditorComponent />
-          <Terminal />
-        </div>
+        </Col>
+        <Col xxl={21} style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ borderBottom: "1px solid #bd93f9" }}>
+            <EditorTabs />
+            <EditorComponent />
+          </div>
+          <Shell />
+        </Col>
       </Row>
     )
   );
