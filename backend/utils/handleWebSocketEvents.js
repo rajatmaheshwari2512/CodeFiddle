@@ -1,13 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 
-const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
-  const completePathToFileOrFolder = path.resolve(
-    `${__dirname}/playgrounds/${id}/${pathToFileOrFolder}`
-  );
+const handleWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
   switch (type) {
     case "writeFile":
-      fs.writeFile(completePathToFileOrFolder, data, (err) => {
+      fs.writeFile(pathToFileOrFolder, data, (err) => {
         if (err) {
           console.log(err);
           const errMessage = {
@@ -19,7 +16,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
           ws.send(JSON.stringify(errMessage));
         } else {
           const successMessage = {
-            type: "success",
+            type: "writeFile",
             payload: {
               data: "File written successfully",
             },
@@ -29,7 +26,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
       });
       break;
     case "readFile":
-      fs.readFile(completePathToFileOrFolder, (err, data) => {
+      fs.readFile(pathToFileOrFolder, (err, data) => {
         if (err) {
           console.log(err);
           const errMessage = {
@@ -41,7 +38,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
           ws.send(JSON.stringify(errMessage));
         } else {
           const successMessage = {
-            type: "success",
+            type: "readFile",
             payload: {
               data: data.toString(),
             },
@@ -51,7 +48,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
       });
       break;
     case "deleteFile":
-      fs.unlink(completePathToFileOrFolder, (err) => {
+      fs.unlink(pathToFileOrFolder, (err) => {
         if (err) {
           console.log(err);
           const errMessage = {
@@ -63,7 +60,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
           ws.send(JSON.stringify(errMessage));
         } else {
           const successMessage = {
-            type: "success",
+            type: "deleteFile",
             payload: {
               data: "File deleted successfully",
             },
@@ -73,7 +70,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
       });
       break;
     case "createFolder":
-      fs.mkdir(completePathToFileOrFolder, (err) => {
+      fs.mkdir(pathToFileOrFolder, (err) => {
         if (err) {
           console.log(err);
           const errMessage = {
@@ -85,7 +82,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
           ws.send(JSON.stringify(errMessage));
         } else {
           const successMessage = {
-            type: "success",
+            type: "createFolder",
             payload: {
               data: "Folder created successfully",
             },
@@ -95,7 +92,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
       });
       break;
     case "deleteFolder":
-      fs.rmdir(completePathToFileOrFolder, { recursive: true }, (err) => {
+      fs.rmdir(pathToFileOrFolder, { recursive: true }, (err) => {
         if (err) {
           console.log(err);
           const errMessage = {
@@ -107,7 +104,7 @@ const handleWebSocketEvents = (ws, id, type, data, pathToFileOrFolder) => {
           ws.send(JSON.stringify(errMessage));
         } else {
           const successMessage = {
-            type: "success",
+            type: "deleteFolder",
             payload: {
               data: "Folder deleted successfully",
             },

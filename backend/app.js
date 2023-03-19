@@ -67,7 +67,6 @@ ws.on("request", (request) => {
           const messageData = JSON.parse(message.utf8Data);
           handleWebSocketEvents(
             ws,
-            playgroundId,
             messageData.type,
             messageData.payload.data,
             messageData.payload.path

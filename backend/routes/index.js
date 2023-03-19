@@ -17,13 +17,8 @@ router
         console.log(err);
         res.json({ error: err });
       } else {
-        console.log(
-          "cd ../playgrounds/ && npm create vite@latest " +
-            id +
-            " -- --template react"
-        );
-        exec("npm create vite@latest " + id + " -- --template react", {
-          cwd: path.resolve(`${__dirname}/../playgrounds/`),
+        exec("npm create vite@latest code -- --template react", {
+          cwd: path.resolve(`${__dirname}/../playgrounds/${id}`),
         })
           .then((resp) => {
             res.json({ playgroundId: id });
@@ -38,7 +33,7 @@ router
   .get("/tree/:playgroundId", (req, res) => {
     const playgroundId = req.params.playgroundId;
     const playGroundPath = path.resolve(
-      `__dirname/playgrounds/${playgroundId}`
+      `__dirname/../playgrounds/${playgroundId}/code`
     );
     const tree = directoryTree(playGroundPath);
     res.json(tree);

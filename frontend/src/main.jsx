@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { LandingPage } from "../Pages/LandingPage";
 import { Playground } from "../Pages/Playground";
 
+import "./main.css";
+
 const routes = [
   {
     path: "/",

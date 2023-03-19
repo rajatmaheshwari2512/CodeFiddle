@@ -1,3 +1,5 @@
+import { redirect } from "react-router-dom";
+
 import axios from "axios";
 
 import { Row, Col, Button } from "antd";
@@ -5,9 +7,14 @@ import { Row, Col, Button } from "antd";
 export const LandingPage = () => {
   const handleClick = () => {
     console.log("clicked");
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api`).then((resp) => {
-      console.log(resp.data);
-    });
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api`)
+      .then((resp) => {
+        return redirect(`/playground/${resp.data.playgroundId}`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
