@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import folderStructureStore from "../Store/folderStructureStore";
+import websocketStore from "../Store/websocketStore";
 
 import Collapse from "../assets/collapse.png";
 import Expand from "../assets/expand.png";
@@ -68,10 +69,11 @@ const Tree = ({ data, ws }) => {
   );
 };
 
-export const FolderStructure = ({ ws }) => {
+export const FolderStructure = () => {
   const folderStructure = folderStructureStore(
     (state) => state.folderStructure
   );
+  const ws = websocketStore((state) => state.ws);
 
   return folderStructure && <Tree data={folderStructure} ws={ws} />;
 };

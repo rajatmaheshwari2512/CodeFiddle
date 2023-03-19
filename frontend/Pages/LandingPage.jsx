@@ -6,7 +6,6 @@ import { Row, Col, Button } from "antd";
 
 export const LandingPage = () => {
   const handleClick = () => {
-    console.log("clicked");
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/api`)
       .then((resp) => {

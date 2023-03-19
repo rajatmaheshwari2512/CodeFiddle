@@ -9,6 +9,7 @@ import { EditorTabs } from "../Components/EditorTabs";
 
 import folderStructureStore from "../Store/folderStructureStore";
 import activeTabStore from "../Store/activeTabStore";
+import websocketStore from "../Store/websocketStore";
 
 export const Playground = () => {
   const { playgroundId } = useParams();
@@ -16,42 +17,57 @@ export const Playground = () => {
   const setFolderStructure = folderStructureStore(
     (state) => state.setFolderStructure
   );
-
   const setActiveTab = activeTabStore((state) => state.setActiveTab);
+
+  const setWs = websocketStore((state) => state.setWs);
 
   setFolderStructure(playgroundId);
 
   const ws = new WebSocket("ws://localhost:3000/?playgroundId=" + playgroundId);
 
   ws.onopen = () => {
+    setWs(ws);
     ws.onmessage = (msg) => {
       const data = JSON.parse(msg.data);
-      if (data.type === "readFile") {
-        const payload = data.payload.data;
-        const path = data.payload.path;
-        setActiveTab(path, "javascript", payload);
+      switch (data.type) {
+        case "readFile":
+          const payload = data.payload.data;
+          const path = data.payload.path;
+          setActiveTab(path, "javascript", payload);
+          break;
+        case "writeFile":
+        case "deleteFile":
+        case "createFolder":
+        case "deleteFolder":
+          break;
+        case "error":
+          console.log(data.payload);
+        default:
+          console.log("Unknown Event ", data);
       }
     };
   };
 
   return (
-    <Row>
-      <div
-        style={{
-          paddingRight: "10px",
-          minWidth: "12vw",
-          maxWidth: "15vw",
-          minHeight: "100vh",
-          backgroundColor: "#22212c",
-        }}
-      >
-        <FolderStructure ws={ws} />
-      </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <EditorTabs />
-        <EditorComponent />
-        <Terminal />
-      </div>
-    </Row>
+    ws && (
+      <Row>
+        <div
+          style={{
+            paddingRight: "10px",
+            minWidth: "12vw",
+            maxWidth: "15vw",
+            minHeight: "100vh",
+            backgroundColor: "#22212c",
+          }}
+        >
+          <FolderStructure />
+        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <EditorTabs />
+          <EditorComponent />
+          <Terminal />
+        </div>
+      </Row>
+    )
   );
 };
