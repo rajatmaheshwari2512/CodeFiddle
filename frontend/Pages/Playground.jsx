@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import { Row, Col } from "antd";
 
 import { useParams } from "react-router-dom";
@@ -10,6 +8,7 @@ import { EditorComponent } from "../Components/EditorComponent";
 import { EditorTabs } from "../Components/EditorTabs";
 
 import folderStructureStore from "../Store/folderStructureStore";
+import activeTabStore from "../Store/activeTabStore";
 
 export const Playground = () => {
   const { playgroundId } = useParams();
@@ -18,13 +17,20 @@ export const Playground = () => {
     (state) => state.setFolderStructure
   );
 
+  const setActiveTab = activeTabStore((state) => state.setActiveTab);
+
   setFolderStructure(playgroundId);
 
-  const ws = new WebSocket("ws://localhost:3000/");
+  const ws = new WebSocket("ws://localhost:3000/?playgroundId=" + playgroundId);
 
   ws.onopen = () => {
     ws.onmessage = (msg) => {
       const data = JSON.parse(msg.data);
+      if (data.type === "readFile") {
+        const payload = data.payload.data;
+        const path = data.payload.path;
+        setActiveTab(path, "javascript", payload);
+      }
     };
   };
 
@@ -39,7 +45,7 @@ export const Playground = () => {
           backgroundColor: "#22212c",
         }}
       >
-        <FolderStructure />
+        <FolderStructure ws={ws} />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <EditorTabs />

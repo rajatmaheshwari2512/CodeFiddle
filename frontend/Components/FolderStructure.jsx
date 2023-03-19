@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 
 import folderStructureStore from "../Store/folderStructureStore";
-import activeTabStore from "../Store/activeTabStore";
 
 import Collapse from "../assets/collapse.png";
 import Expand from "../assets/expand.png";
 
-const Tree = ({ data }) => {
-  const setActiveTab = activeTabStore((state) => state.setActiveTab);
-
+const Tree = ({ data, ws }) => {
   const [visible, setVisible] = useState(true);
 
   const toggleVisibility = (name) => {
@@ -16,7 +13,14 @@ const Tree = ({ data }) => {
   };
 
   const handleDoubleClick = (path) => {
-    setActiveTab(path, "javascript", "console.log(1)");
+    const readFileRequest = {
+      type: "readFile",
+      payload: {
+        path: path,
+        data: null,
+      },
+    };
+    ws.send(JSON.stringify(readFileRequest));
   };
 
   return (
@@ -58,18 +62,16 @@ const Tree = ({ data }) => {
       {visible[data.name] &&
         data.children &&
         data.children.map((child, index) => (
-          <Tree key={child.name} data={child} />
+          <Tree key={child.name} data={child} ws={ws} />
         ))}
     </div>
   );
 };
 
-export const FolderStructure = () => {
+export const FolderStructure = ({ ws }) => {
   const folderStructure = folderStructureStore(
     (state) => state.folderStructure
   );
 
-  console.log(folderStructure?.children);
-
-  return folderStructure && <Tree data={folderStructure} />;
+  return folderStructure && <Tree data={folderStructure} ws={ws} />;
 };

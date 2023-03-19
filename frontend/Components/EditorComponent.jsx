@@ -19,8 +19,9 @@ export const EditorComponent = () => {
     activeTab &&
     theme && (
       <Editor
+        saveViewState={true}
         height="90vh"
-        width="87vw"
+        width="85vw"
         path={activeTab.path}
         defaultLanguage={activeTab.extension}
         defaultValue={activeTab.value}

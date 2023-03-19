@@ -36,43 +36,54 @@ const ws = new WebSocketServer({
 ws.on("request", (request) => {
   const params = querystring.parse(request.httpRequest.url.split("?")[1]);
   const playgroundId = params.playgroundId;
-  const ws = request.accept(null, request.origin);
-  docker.createContainer(
-    {
-      Image: "ubuntu-user",
-      name: playgroundId,
-      AttachStderr: true,
-      AttachStdin: true,
-      AttachStdout: true,
-      Cmd: "/bin/bash".split(" "),
-      Tty: true,
-      Volumes: {
-        "/home/rajat/code": {},
-      },
-      HostConfig: {
-        Binds: [
-          `${path.resolve(
-            __dirname + "/playgrounds/" + playgroundId
-          )}:/home/rajat/code`,
-        ],
-      },
-    },
-    (err, container) => {
-      if (err) {
-        console.log(err);
-        ws.send(err);
-      } else {
-        container.start();
-        ws.on("message", (message) => {
-          const messageData = JSON.parse(message.utf8Data);
-          handleWebSocketEvents(
-            ws,
-            messageData.type,
-            messageData.payload.data,
-            messageData.payload.path
-          );
-        });
-      }
-    }
-  );
+  if (playgroundId) {
+    const ws = request.accept(null, request.origin);
+    // docker.createContainer(
+    //   {
+    //     Image: "ubuntu-user",
+    //     name: playgroundId,
+    //     AttachStderr: true,
+    //     AttachStdin: true,
+    //     AttachStdout: true,
+    //     Cmd: "/bin/bash".split(" "),
+    //     Tty: true,
+    //     Volumes: {
+    //       "/home/rajat/code": {},
+    //     },
+    //     HostConfig: {
+    //       Binds: [
+    //         `${path.resolve(
+    //           __dirname + "/playgrounds/" + playgroundId + "/code"
+    //         )}:/home/rajat/code`,
+    //       ],
+    //     },
+    //   },
+    //   (err, container) => {
+    //     if (err) {
+    //       console.log(err);
+    //       ws.send(err);
+    //     } else {
+    //       container.start();
+    //       ws.on("message", (message) => {
+    //         const messageData = JSON.parse(message.utf8Data);
+    //         handleWebSocketEvents(
+    //           ws,
+    //           messageData.type,
+    //           messageData.payload.data,
+    //           messageData.payload.path
+    //         );
+    //       });
+    //     }
+    //   }
+    // );
+    ws.on("message", (message) => {
+      const messageData = JSON.parse(message.utf8Data);
+      handleWebSocketEvents(
+        ws,
+        messageData.type,
+        messageData.payload.data,
+        messageData.payload.path
+      );
+    });
+  }
 });

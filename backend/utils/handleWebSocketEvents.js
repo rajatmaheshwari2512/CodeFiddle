@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 
 const handleWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
   switch (type) {
@@ -41,6 +40,7 @@ const handleWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
             type: "readFile",
             payload: {
               data: data.toString(),
+              path: pathToFileOrFolder,
             },
           };
           ws.send(JSON.stringify(successMessage));
