@@ -62,7 +62,7 @@ const Tree = ({ data, ws }) => {
       )}
       {visible[data.name] &&
         data.children &&
-        data.children.map((child, index) => (
+        data.children.map((child) => (
           <Tree key={child.name} data={child} ws={ws} />
         ))}
     </div>

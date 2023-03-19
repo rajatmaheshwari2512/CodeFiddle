@@ -35,15 +35,6 @@ export const Playground = () => {
           const path = data.payload.path;
           setActiveTab(path, "javascript", payload);
           break;
-        case "writeFile":
-        case "deleteFile":
-        case "createFolder":
-        case "deleteFolder":
-          break;
-        case "error":
-          console.log(data.payload);
-        default:
-          console.log("Unknown Event ", data);
       }
     };
   };

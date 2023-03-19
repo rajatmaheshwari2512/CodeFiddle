@@ -30,20 +30,22 @@ export const EditorComponent = () => {
   };
 
   return (
-    activeTab &&
     theme && (
       <Editor
         saveViewState={true}
-        height="90vh"
+        height="65vh"
         width="85vw"
-        path={activeTab.path}
-        defaultLanguage={activeTab.extension}
-        defaultValue={activeTab.value}
+        path={activeTab ? activeTab.path : ""}
+        defaultLanguage={activeTab ? activeTab.extension : "javascript"}
+        defaultValue={
+          activeTab ? activeTab.value : "Click on a file and start editing"
+        }
         onChange={handleChange}
         onMount={(editor, monaco) => {
           monaco.editor.defineTheme("dracula", theme);
           monaco.editor.setTheme("dracula");
         }}
+        options={{ readOnly: activeTab ? false : true }}
       />
     )
   );
