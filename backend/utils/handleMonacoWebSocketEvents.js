@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const handleWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
+const handleMonacoWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
   switch (type) {
     case "writeFile":
       fs.writeFile(pathToFileOrFolder, data, (err) => {
@@ -126,4 +126,4 @@ const handleWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
   }
 };
 
-module.exports = handleWebSocketEvents;
+module.exports = handleMonacoWebSocketEvents;
