@@ -28,7 +28,8 @@ export const Shell = () => {
         cursor: "#f8f8f2",
         cursorAccent: "#282a36",
       },
-      rows: 17,
+      rows: 14,
+      fontSize: 18,
     });
     term.open(terminal.current);
     let fitAddon = new FitAddon();

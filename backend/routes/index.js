@@ -33,7 +33,7 @@ router
   .get("/tree/:playgroundId", (req, res) => {
     const playgroundId = req.params.playgroundId;
     const playGroundPath = path.resolve(
-      `__dirname/../playgrounds/${playgroundId}/code`
+      `${__dirname}/../playgrounds/${playgroundId}/code`
     );
     const tree = directoryTree(playGroundPath);
     res.json(tree);

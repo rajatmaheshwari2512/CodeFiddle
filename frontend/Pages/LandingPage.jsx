@@ -1,15 +1,16 @@
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
 import { Row, Col, Button } from "antd";
 
 export const LandingPage = () => {
+  const navigate = useNavigate();
   const handleClick = () => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/api`)
       .then((resp) => {
-        return redirect(`/playground/${resp.data.playgroundId}`);
+        navigate(`/playground/${resp.data.playgroundId}`);
       })
       .catch((err) => {
         console.log(err);

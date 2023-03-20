@@ -33,7 +33,7 @@ export const EditorComponent = () => {
     theme && (
       <Editor
         saveViewState={true}
-        height="609px"
+        height="618px"
         width="100%"
         path={activeTab ? activeTab.path : ""}
         defaultLanguage={activeTab ? activeTab.extension : "javascript"}
@@ -45,7 +45,7 @@ export const EditorComponent = () => {
           monaco.editor.defineTheme("dracula", theme);
           monaco.editor.setTheme("dracula");
         }}
-        options={{ readOnly: activeTab ? false : true }}
+        options={{ readOnly: activeTab ? false : true, fontSize: "18px" }}
       />
     )
   );
