@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap");
 * {
   padding: 0;
   margin: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: "Ubuntu Mono", monospace;
 }

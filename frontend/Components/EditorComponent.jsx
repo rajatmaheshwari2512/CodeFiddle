@@ -33,7 +33,7 @@ export const EditorComponent = () => {
     theme && (
       <Editor
         saveViewState={true}
-        height="604px"
+        height="609px"
         width="100%"
         path={activeTab ? activeTab.path : ""}
         defaultLanguage={activeTab ? activeTab.extension : "javascript"}

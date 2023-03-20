@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 
 import { Terminal } from "xterm";
 import { AttachAddon } from "xterm-addon-attach";
@@ -8,7 +9,12 @@ import "xterm/css/xterm.css";
 export const Shell = () => {
   const terminal = useRef(null);
 
+  const { playgroundId } = useParams();
+
   useEffect(() => {
+    const ws = new WebSocket(
+      "ws://localhost:3000/shell/?playgroundId=" + playgroundId
+    );
     const term = new Terminal({
       cursorBlink: true,
       convertEol: true,
@@ -25,14 +31,13 @@ export const Shell = () => {
       rows: 17,
     });
     term.open(terminal.current);
-    // let fitAddon = new FitAddon();
-    // term.loadAddon(fitAddon);
-    // fitAddon.fit();
-    // ws.onopen = () => {
-    //   const attachAddon = new AttachAddon(ws);
-    //   term.loadAddon(attachAddon);
-    // };
-
+    let fitAddon = new FitAddon();
+    term.loadAddon(fitAddon);
+    fitAddon.fit();
+    ws.onopen = () => {
+      const attachAddon = new AttachAddon(ws);
+      term.loadAddon(attachAddon);
+    };
     return () => {
       term.dispose();
     };
