@@ -8,6 +8,8 @@ import { Playground } from "../Pages/Playground";
 
 import "./main.css";
 
+import "../assets/DroidSansMono.ttf";
+
 const routes = [
   {
     path: "/",

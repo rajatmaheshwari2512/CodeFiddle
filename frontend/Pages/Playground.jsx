@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import { Row, Col } from "antd";
 
 import { useParams } from "react-router-dom";
@@ -12,6 +14,8 @@ import activeTabStore from "../Store/activeTabStore";
 import websocketStore from "../Store/websocketStore";
 
 export const Playground = () => {
+  const browser = useRef(null);
+
   const { playgroundId } = useParams();
 
   const setFolderStructure = folderStructureStore(
@@ -39,6 +43,10 @@ export const Playground = () => {
     };
   };
 
+  const handleRefresh = () => {
+    browser.current.src = browser.current.src;
+  };
+
   return (
     ws && (
       <Row>
@@ -47,19 +55,29 @@ export const Playground = () => {
             paddingRight: "10px",
             // minWidth: "12vw",
             // maxWidth: "15vw",
-            minHeight: "100vh",
+            maxHeight: "100vh",
             backgroundColor: "#22212c",
+            fontFamily: "Roboto, sans-serif",
           }}
           xxl={3}
         >
           <FolderStructure />
         </Col>
-        <Col xxl={21} style={{ display: "flex", flexDirection: "column" }}>
+        <Col xxl={16} style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ borderBottom: "1px solid #bd93f9" }}>
             <EditorTabs />
             <EditorComponent />
           </div>
           <Shell />
+        </Col>
+        <Col xxl={5}>
+          <button onClick={handleRefresh}>Refresh</button>
+          <iframe
+            ref={browser}
+            width="99%"
+            height="97%"
+            src="http://localhost:8000"
+          />
         </Col>
       </Row>
     )

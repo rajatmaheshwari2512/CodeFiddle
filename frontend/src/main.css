@@ -1,6 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
+@font-face {
+  font-family: "Droid Sans Mono";
+  src: local("Droid Sans Mono"),
+    url("../assets/DroidSansMono.ttf") format("truetype");
+  font-weight: regular;
+}
 * {
   padding: 0;
   margin: 0;
-  font-family: "Ubuntu Mono", monospace;
+  /* font-family: "Droid Sans Mono", monospace; */
 }

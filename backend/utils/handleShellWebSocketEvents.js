@@ -25,6 +25,12 @@ const handleShellWebSocketEvents = (ws, playgroundId) => {
             __dirname + "/../playgrounds/" + playgroundId + "/code"
           )}:/home/rajat/code`,
         ],
+        PortBindings: {
+          "5173/tcp": [{ HostPort: "8000" }],
+        },
+      },
+      ExposedPorts: {
+        "5173/tcp": {},
       },
     },
     (err, container) => {

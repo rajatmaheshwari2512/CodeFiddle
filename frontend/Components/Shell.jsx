@@ -29,7 +29,8 @@ export const Shell = () => {
         cursorAccent: "#282a36",
       },
       rows: 14,
-      fontSize: 18,
+      fontSize: 16,
+      fontFamily: "Ubuntu Mono, monospace",
     });
     term.open(terminal.current);
     let fitAddon = new FitAddon();
