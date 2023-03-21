@@ -1,12 +1,9 @@
 const path = require("path");
-
 const Docker = require("dockerode");
-
-const processOutput = require("./processOutput");
 
 const docker = new Docker();
 
-const handleShellWebSocketEvents = (ws, playgroundId) => {
+const handleContainerCreate = (playgroundId, wsForShell, req, socket, head) => {
   docker.createContainer(
     {
       Image: "ubuntu-user",
@@ -36,37 +33,16 @@ const handleShellWebSocketEvents = (ws, playgroundId) => {
     (err, container) => {
       if (err) {
         console.log(err);
-        ws.send(err);
+        // ws.send(err);
       } else {
         container.start().then(() => {
-          container.exec(
-            {
-              Cmd: ["/bin/bash"],
-              AttachStdin: true,
-              AttachStdout: true,
-              AttachStderr: true,
-              Tty: true,
-              User: "rajat",
-            },
-            (err, exec) => {
-              exec.start(
-                {
-                  stdin: false,
-                  hijack: true,
-                },
-                (err, stream) => {
-                  processOutput(stream, ws);
-                  ws.on("message", (message) => {
-                    stream.write(message);
-                  });
-                }
-              );
-            }
-          );
+          wsForShell.handleUpgrade(req, socket, head, (ws) => {
+            wsForShell.emit("connection", ws, req, container);
+          });
         });
       }
     }
   );
 };
 
-module.exports = handleShellWebSocketEvents;
+module.exports = handleContainerCreate;

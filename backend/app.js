@@ -10,7 +10,8 @@ const cors = require("cors");
 const indexRouter = require("./routes/index");
 
 const handleMonacoWebSocketEvents = require("./utils/handleMonacoWebSocketEvents");
-const handleShellWebSocketEvents = require("./utils/handleShellWebSocketEvents");
+const handleContainerCreate = require("./utils/handleContainerCreate");
+const handleShellCreation = require("./utils/handleShellCreation");
 
 const app = express();
 
@@ -51,12 +52,8 @@ wsForMonaco.on("connection", (ws, req) => {
   }
 });
 
-wsForShell.on("connection", (ws, req) => {
-  const params = querystring.parse(req.url.split("?")[1]);
-  const playgroundId = params.playgroundId;
-  if (playgroundId) {
-    handleShellWebSocketEvents(ws, playgroundId);
-  }
+wsForShell.on("connection", (ws, req, container) => {
+  handleShellCreation(container, ws);
 });
 
 server.on("upgrade", (req, socket, head) => {
@@ -67,8 +64,7 @@ server.on("upgrade", (req, socket, head) => {
       wsForMonaco.emit("connection", ws, req);
     });
   } else {
-    wsForShell.handleUpgrade(req, socket, head, (ws) => {
-      wsForShell.emit("connection", ws, req);
-    });
+    const { playgroundId } = querystring.parse(req.url.split("?")[1]);
+    handleContainerCreate(playgroundId, wsForShell, req, socket, head);
   }
 });
