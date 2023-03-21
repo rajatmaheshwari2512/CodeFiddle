@@ -6,15 +6,20 @@ import { AttachAddon } from "xterm-addon-attach";
 import { FitAddon } from "xterm-addon-fit";
 import "xterm/css/xterm.css";
 
-export const Shell = () => {
+import shellSocketStore from "../Store/shellSocketStore";
+
+export const ShellComponent = () => {
+  const setWs = shellSocketStore((state) => state.setWs);
+
   const terminal = useRef(null);
 
   const { playgroundId } = useParams();
 
+  const ws = new WebSocket(
+    "ws://localhost:3000/shell/?playgroundId=" + playgroundId
+  );
+
   useEffect(() => {
-    const ws = new WebSocket(
-      "ws://localhost:3000/shell/?playgroundId=" + playgroundId
-    );
     const term = new Terminal({
       cursorBlink: true,
       convertEol: true,
@@ -28,7 +33,7 @@ export const Shell = () => {
         cursor: "#f8f8f2",
         cursorAccent: "#282a36",
       },
-      rows: 14,
+      scrollback: 0,
       fontSize: 16,
       fontFamily: "Ubuntu Mono, monospace",
     });
@@ -39,11 +44,23 @@ export const Shell = () => {
     ws.onopen = () => {
       const attachAddon = new AttachAddon(ws);
       term.loadAddon(attachAddon);
+      setWs(ws);
     };
     return () => {
       term.dispose();
     };
   }, []);
 
-  return <div ref={terminal} className="terminal" />;
+  return (
+    <div
+      style={{
+        height: "272px",
+        overflow: "auto",
+        scrollbarColor: "#282a36 white",
+      }}
+      ref={terminal}
+      className="terminal"
+      id="terminal-container"
+    />
+  );
 };

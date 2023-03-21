@@ -1,29 +1,27 @@
-import { useRef } from "react";
-
 import { Row, Col } from "antd";
 
 import { useParams } from "react-router-dom";
 
-import { FolderStructure } from "../Components/FolderStructure";
-import { Shell } from "../Components/Shell";
+import { FolderStructureComponent } from "../Components/FolderStructureComponent";
+import { ShellComponent } from "../Components/ShellComponent";
 import { EditorComponent } from "../Components/EditorComponent";
-import { EditorTabs } from "../Components/EditorTabs";
+import { EditorTabsComponent } from "../Components/EditorTabsComponent";
+import { BrowserComponent } from "../Components/BrowserComponent";
 
 import folderStructureStore from "../Store/folderStructureStore";
 import activeTabStore from "../Store/activeTabStore";
 import websocketStore from "../Store/websocketStore";
+import portStore from "../Store/portStore";
 
 export const Playground = () => {
-  const browser = useRef(null);
-
   const { playgroundId } = useParams();
 
   const setFolderStructure = folderStructureStore(
     (state) => state.setFolderStructure
   );
   const setActiveTab = activeTabStore((state) => state.setActiveTab);
-
   const setWs = websocketStore((state) => state.setWs);
+  const setPort = portStore((state) => state.setPort);
 
   setFolderStructure(playgroundId);
 
@@ -39,12 +37,11 @@ export const Playground = () => {
           const path = data.payload.path;
           setActiveTab(path, "javascript", payload);
           break;
+        case "registerPort":
+          const port = data.payload.port;
+          setPort(port);
       }
     };
-  };
-
-  const handleRefresh = () => {
-    browser.current.src = browser.current.src;
   };
 
   return (
@@ -55,29 +52,31 @@ export const Playground = () => {
             paddingRight: "10px",
             // minWidth: "12vw",
             // maxWidth: "15vw",
-            maxHeight: "100vh",
+            height: "927px",
             backgroundColor: "#22212c",
             fontFamily: "Roboto, sans-serif",
+            overflow: "auto",
           }}
           xxl={3}
         >
-          <FolderStructure />
+          <FolderStructureComponent />
         </Col>
-        <Col xxl={16} style={{ display: "flex", flexDirection: "column" }}>
+        <Col
+          xxl={16}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            backgroundColor: "#282a36",
+          }}
+        >
           <div style={{ borderBottom: "1px solid #bd93f9" }}>
-            <EditorTabs />
+            <EditorTabsComponent />
             <EditorComponent />
           </div>
-          <Shell />
+          <ShellComponent />
         </Col>
         <Col xxl={5}>
-          <button onClick={handleRefresh}>Refresh</button>
-          <iframe
-            ref={browser}
-            width="99%"
-            height="97%"
-            src="http://localhost:8000"
-          />
+          <BrowserComponent />
         </Col>
       </Row>
     )

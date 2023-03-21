@@ -69,7 +69,7 @@ const Tree = ({ data, ws }) => {
   );
 };
 
-export const FolderStructure = () => {
+export const FolderStructureComponent = () => {
   const folderStructure = folderStructureStore(
     (state) => state.folderStructure
   );

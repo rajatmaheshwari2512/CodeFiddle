@@ -1,5 +1,9 @@
 const fs = require("fs");
 
+const Docker = require("dockerode");
+
+const docker = new Docker();
+
 const handleMonacoWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
   switch (type) {
     case "writeFile":
@@ -113,8 +117,31 @@ const handleMonacoWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
         }
       });
       break;
+    case "registerPort":
+      const name = data;
+      docker.listContainers({ name: name }, (err, container) => {
+        if (err) console.log(err);
+        else {
+          const port = container[0].Ports[0].PublicPort;
+          const successMessage = {
+            type: "registerPort",
+            payload: {
+              port: port,
+            },
+          };
+          // console.log(port);
+          // console.log(
+          //   container[0].Ports,
+          //   container[0].NetworkSettings,
+          //   container[0].HostConfig
+          // );
+          ws.send(JSON.stringify(successMessage));
+        }
+      });
+      break;
+
     default:
-      console.log("Invalid type");
+      console.log("Invalid type ", type);
       const errMessage = {
         type: "error",
         payload: {
