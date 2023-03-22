@@ -1,4 +1,24 @@
+import websocketStore from "../Store/websocketStore";
+import availableTabsStore from "../Store/availableTabsStore";
+
 export const EditorButtonComponent = ({ path, isActive }) => {
+  const ws = websocketStore((state) => state.ws);
+  const addOrUpdateAvailableTabs = availableTabsStore(
+    (state) => state.addOrUpdateAvailableTabs
+  );
+
+  const handleClick = () => {
+    const message = {
+      type: "readFile",
+      payload: {
+        data: null,
+        path: path,
+      },
+    };
+    ws.send(JSON.stringify(message));
+    addOrUpdateAvailableTabs(path);
+  };
+
   return (
     <button
       style={{
@@ -18,6 +38,7 @@ export const EditorButtonComponent = ({ path, isActive }) => {
         // marginRight: "5px",
       }}
       disabled={isActive}
+      onClick={handleClick}
     >
       {path.split("/").pop()}
     </button>
