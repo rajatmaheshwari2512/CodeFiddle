@@ -33,7 +33,6 @@ export const ShellComponent = () => {
         cursor: "#f8f8f2",
         cursorAccent: "#282a36",
       },
-      scrollback: 0,
       fontSize: 16,
       fontFamily: "Ubuntu Mono, monospace",
     });
@@ -54,7 +53,7 @@ export const ShellComponent = () => {
   return (
     <div
       style={{
-        height: "272px",
+        height: "23vh",
         overflow: "auto",
         scrollbarColor: "#282a36 white",
       }}

@@ -37,10 +37,10 @@ export const EditorComponent = () => {
     theme && (
       <Editor
         saveViewState={true}
-        height="622px"
+        height="74vh"
         width="100%"
         path={activeTab ? activeTab.path : ""}
-        defaultLanguage={activeTab ? activeTab.extension : "javascript"}
+        defaultLanguage={undefined}
         defaultValue={
           activeTab ? activeTab.value : "Click on a file and start editing"
         }

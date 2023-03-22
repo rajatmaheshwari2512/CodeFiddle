@@ -2,6 +2,8 @@ import { Row, Col } from "antd";
 
 import { useParams } from "react-router-dom";
 
+import Split from "react-split";
+
 import { FolderStructureComponent } from "../Components/FolderStructureComponent";
 import { ShellComponent } from "../Components/ShellComponent";
 import { EditorComponent } from "../Components/EditorComponent";
@@ -46,10 +48,13 @@ export const Playground = () => {
 
   return (
     ws && (
-      <Row>
-        <Col
+      <div style={{ display: "flex" }}>
+        <div
           style={{
             paddingRight: "10px",
+            paddingTop: "2px",
+            minWidth: "250px",
+            maxWidth: "25%",
             // minWidth: "12vw",
             // maxWidth: "15vw",
             height: "927px",
@@ -60,13 +65,13 @@ export const Playground = () => {
           xxl={3}
         >
           <FolderStructureComponent />
-        </Col>
-        <Col
-          xxl={16}
+        </div>
+        <div
           style={{
             display: "flex",
             flexDirection: "column",
             backgroundColor: "#282a36",
+            width: "65%",
           }}
         >
           <div style={{ borderBottom: "1px solid #bd93f9" }}>
@@ -74,11 +79,11 @@ export const Playground = () => {
             <EditorComponent />
           </div>
           <ShellComponent />
-        </Col>
-        <Col xxl={5}>
+        </div>
+        <div>
           <BrowserComponent />
-        </Col>
-      </Row>
+        </div>
+      </div>
     )
   );
 };

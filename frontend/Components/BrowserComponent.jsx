@@ -48,7 +48,7 @@ export const BrowserComponent = () => {
             width: "100%",
             backgroundColor: "#282a36",
             color: "white",
-            height: "32px",
+            height: "30px",
             fontFamily: "Ubuntu Mono, monospace",
           }}
         />
@@ -56,7 +56,7 @@ export const BrowserComponent = () => {
           frameBorder={0}
           ref={browser}
           src={`http://localhost:${port}`}
-          style={{ width: "100%", height: "890px" }}
+          style={{ width: "100%", height: "97vh" }}
         />
       </Row>
     )
