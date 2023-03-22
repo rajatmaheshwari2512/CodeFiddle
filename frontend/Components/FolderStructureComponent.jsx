@@ -2,11 +2,12 @@ import { useState } from "react";
 
 import folderStructureStore from "../Store/folderStructureStore";
 import websocketStore from "../Store/websocketStore";
+import availableTabsStore from "../Store/availableTabsStore";
 
 import Collapse from "../assets/collapse.png";
 import Expand from "../assets/expand.png";
 
-const Tree = ({ data, ws }) => {
+const Tree = ({ data, ws, addOrUpdateAvailableTabs }) => {
   const [visible, setVisible] = useState(true);
 
   const toggleVisibility = (name) => {
@@ -21,6 +22,7 @@ const Tree = ({ data, ws }) => {
         data: null,
       },
     };
+    addOrUpdateAvailableTabs(path);
     ws.send(JSON.stringify(readFileRequest));
   };
 
@@ -63,7 +65,12 @@ const Tree = ({ data, ws }) => {
       {visible[data.name] &&
         data.children &&
         data.children.map((child) => (
-          <Tree key={child.name} data={child} ws={ws} />
+          <Tree
+            key={child.name}
+            data={child}
+            ws={ws}
+            addOrUpdateAvailableTabs={addOrUpdateAvailableTabs}
+          />
         ))}
     </div>
   );
@@ -73,7 +80,19 @@ export const FolderStructureComponent = () => {
   const folderStructure = folderStructureStore(
     (state) => state.folderStructure
   );
+  const addOrUpdateAvailableTabs = availableTabsStore(
+    (state) => state.addOrUpdateAvailableTabs
+  );
+
   const ws = websocketStore((state) => state.ws);
 
-  return folderStructure && <Tree data={folderStructure} ws={ws} />;
+  return (
+    folderStructure && (
+      <Tree
+        data={folderStructure}
+        ws={ws}
+        addOrUpdateAvailableTabs={addOrUpdateAvailableTabs}
+      />
+    )
+  );
 };

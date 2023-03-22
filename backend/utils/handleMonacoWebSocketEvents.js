@@ -129,12 +129,6 @@ const handleMonacoWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
               port: port,
             },
           };
-          // console.log(port);
-          // console.log(
-          //   container[0].Ports,
-          //   container[0].NetworkSettings,
-          //   container[0].HostConfig
-          // );
           ws.send(JSON.stringify(successMessage));
         }
       });

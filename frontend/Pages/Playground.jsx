@@ -1,8 +1,4 @@
-import { Row, Col } from "antd";
-
 import { useParams } from "react-router-dom";
-
-import Split from "react-split";
 
 import { FolderStructureComponent } from "../Components/FolderStructureComponent";
 import { ShellComponent } from "../Components/ShellComponent";
@@ -37,7 +33,7 @@ export const Playground = () => {
         case "readFile":
           const payload = data.payload.data;
           const path = data.payload.path;
-          setActiveTab(path, "javascript", payload);
+          setActiveTab(path, undefined, payload);
           break;
         case "registerPort":
           const port = data.payload.port;
