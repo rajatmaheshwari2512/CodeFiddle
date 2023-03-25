@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 
+import { Allotment } from "allotment";
+
 import { FolderStructureComponent } from "../Components/FolderStructureComponent";
 import { ShellComponent } from "../Components/ShellComponent";
 import { EditorComponent } from "../Components/EditorComponent";
@@ -48,12 +50,12 @@ export const Playground = () => {
         <div
           style={{
             paddingRight: "10px",
-            paddingTop: "2px",
+            paddingTop: "0.2vh",
             minWidth: "250px",
             maxWidth: "25%",
             // minWidth: "12vw",
             // maxWidth: "15vw",
-            height: "927px",
+            height: "99.8vh",
             backgroundColor: "#22212c",
             fontFamily: "Roboto, sans-serif",
             overflow: "auto",
@@ -62,22 +64,26 @@ export const Playground = () => {
         >
           <FolderStructureComponent />
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            backgroundColor: "#282a36",
-            width: "65%",
-          }}
-        >
-          <div style={{ borderBottom: "1px solid #bd93f9" }}>
-            <EditorTabsComponent />
-            <EditorComponent />
-          </div>
-          <ShellComponent />
-        </div>
-        <div>
-          <BrowserComponent />
+        <div style={{ height: "100vh", width: "100vw" }}>
+          <Allotment>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                backgroundColor: "#282a36",
+                width: "100%",
+              }}
+            >
+              <div style={{ borderBottom: "1px solid #bd93f9" }}>
+                <EditorTabsComponent />
+                <EditorComponent />
+              </div>
+              <ShellComponent />
+            </div>
+            {/* <div> */}
+            <BrowserComponent />
+            {/* </div> */}
+          </Allotment>
         </div>
       </div>
     )

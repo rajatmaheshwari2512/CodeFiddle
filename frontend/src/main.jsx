@@ -7,6 +7,7 @@ import { LandingPage } from "../Pages/LandingPage";
 import { Playground } from "../Pages/Playground";
 
 import "./main.css";
+import "allotment/dist/style.css";
 
 import "../assets/DroidSansMono.ttf";
 

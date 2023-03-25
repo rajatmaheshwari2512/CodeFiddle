@@ -1,11 +1,17 @@
 import { useState } from "react";
 
+import { ContextForFiles } from "./ContextForFiles";
+import { ContextForFolders } from "./ContextForFolders";
+
 import folderStructureStore from "../Store/folderStructureStore";
 import websocketStore from "../Store/websocketStore";
 import availableTabsStore from "../Store/availableTabsStore";
 
 import Collapse from "../assets/collapse.png";
 import Expand from "../assets/expand.png";
+
+import { AiFillFile } from "react-icons/ai";
+import { IconPack } from "../assets/IconPack";
 
 const Tree = ({ data, ws, addOrUpdateAvailableTabs }) => {
   const [visible, setVisible] = useState(true);
@@ -30,6 +36,7 @@ const Tree = ({ data, ws, addOrUpdateAvailableTabs }) => {
     <div style={{ paddingLeft: "10px", color: "white" }}>
       {data.children ? (
         <button
+          // onContextMenu={handleContextForFolders}
           onClick={() => toggleVisibility(data.name)}
           style={{
             paddingTop: "6px",
@@ -50,17 +57,29 @@ const Tree = ({ data, ws, addOrUpdateAvailableTabs }) => {
           {data.name}
         </button>
       ) : (
-        <p
-          onDoubleClick={() => handleDoubleClick(data.path)}
-          style={{
-            fontSize: "15px",
-            cursor: "pointer",
-            marginLeft: "15px",
-            paddingTop: "6px",
-          }}
-        >
-          {data.name}
-        </p>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {IconPack.hasOwnProperty(data.name.split(".").pop()) ? (
+            IconPack[data.name.split(".").pop()]
+          ) : (
+            <AiFillFile
+              color="gray"
+              display="block"
+              style={{ marginTop: "7px" }}
+            />
+          )}
+          <p
+            // onContextMenu={handleContextForFiles}
+            onDoubleClick={() => handleDoubleClick(data.path)}
+            style={{
+              fontSize: "15px",
+              cursor: "pointer",
+              marginLeft: "5px",
+              paddingTop: "6px",
+            }}
+          >
+            {data.name}
+          </p>
+        </div>
       )}
       {visible[data.name] &&
         data.children &&
