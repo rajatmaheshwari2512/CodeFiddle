@@ -7,11 +7,14 @@ import { ShellComponent } from "../Components/ShellComponent";
 import { EditorComponent } from "../Components/EditorComponent";
 import { EditorTabsComponent } from "../Components/EditorTabsComponent";
 import { BrowserComponent } from "../Components/BrowserComponent";
+import { FolderModal } from "../Components/FolderModal";
+import { FileModal } from "../Components/FileModal";
 
 import folderStructureStore from "../Store/folderStructureStore";
 import activeTabStore from "../Store/activeTabStore";
 import websocketStore from "../Store/websocketStore";
 import portStore from "../Store/portStore";
+import createFileOrFolderStore from "../Store/createFileOrFolderStore";
 
 export const Playground = () => {
   const { playgroundId } = useParams();
@@ -52,41 +55,44 @@ export const Playground = () => {
 
   return (
     ws && (
-      <div style={{ display: "flex" }}>
-        <div
-          style={{
-            paddingRight: "10px",
-            paddingTop: "0.2vh",
-            minWidth: "250px",
-            maxWidth: "25%",
-            height: "99.8vh",
-            backgroundColor: "#22212c",
-            fontFamily: "Roboto, sans-serif",
-            overflow: "auto",
-          }}
-        >
-          <FolderStructureComponent />
-        </div>
-        <div style={{ height: "100vh", width: "100vw" }}>
-          <Allotment>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                backgroundColor: "#282a36",
-                width: "100%",
-              }}
-            >
-              <div style={{ borderBottom: "1px solid #bd93f9" }}>
-                <EditorTabsComponent />
-                <EditorComponent />
+      <>
+        <FolderModal />
+        <div style={{ display: "flex" }}>
+          <div
+            style={{
+              paddingRight: "10px",
+              paddingTop: "0.2vh",
+              minWidth: "250px",
+              maxWidth: "25%",
+              height: "99.8vh",
+              backgroundColor: "#22212c",
+              fontFamily: "Roboto, sans-serif",
+              overflow: "auto",
+            }}
+          >
+            <FolderStructureComponent />
+          </div>
+          <div style={{ height: "100vh", width: "100vw" }}>
+            <Allotment>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  backgroundColor: "#282a36",
+                  width: "100%",
+                }}
+              >
+                <div style={{ borderBottom: "1px solid #bd93f9" }}>
+                  <EditorTabsComponent />
+                  <EditorComponent />
+                </div>
+                <ShellComponent />
               </div>
-              <ShellComponent />
-            </div>
-            <BrowserComponent />
-          </Allotment>
+              <BrowserComponent />
+            </Allotment>
+          </div>
         </div>
-      </div>
+      </>
     )
   );
 };

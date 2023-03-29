@@ -1,4 +1,13 @@
-export const ContextForFolders = ({ setOpen, x, y }) => {
+import createFileOrFolderStore from "../Store/createFileOrFolderStore";
+
+export const ContextForFolders = ({ setOpen, x, y, path }) => {
+  const setPath = createFileOrFolderStore((state) => state.setPath);
+
+  const createDirectory = (e) => {
+    console.log("here");
+    setPath(path);
+  };
+
   return (
     <div
       onMouseLeave={() => {
@@ -14,7 +23,7 @@ export const ContextForFolders = ({ setOpen, x, y }) => {
       }}
     >
       <button
-        // onClick={createDirectory}
+        onClick={createDirectory}
         style={{
           color: "white",
           backgroundColor: "#22212c",

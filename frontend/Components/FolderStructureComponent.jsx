@@ -21,6 +21,7 @@ const Tree = ({
   setY,
   setContextForFileOpen,
   setContextForFolderOpen,
+  setPath,
 }) => {
   const [visible, setVisible] = useState(true);
 
@@ -40,25 +41,27 @@ const Tree = ({
     ws.send(JSON.stringify(readFileRequest));
   };
 
-  const handleContextForFolders = (e) => {
+  const handleContextForFolders = (e, path) => {
     e.preventDefault();
     setContextForFolderOpen(true);
     setX(e.clientX);
     setY(e.clientY);
+    setPath(path);
   };
 
-  const handleContextForFiles = (e) => {
+  const handleContextForFiles = (e, path) => {
     e.preventDefault();
     setContextForFileOpen(true);
     setX(e.clientX);
     setY(e.clientY);
+    setPath(path);
   };
 
   return (
     <div style={{ paddingLeft: "10px", color: "white" }}>
       {data.children ? (
         <button
-          onContextMenu={handleContextForFolders}
+          onContextMenu={(e) => handleContextForFolders(e, data.path)}
           onClick={() => toggleVisibility(data.name)}
           style={{
             paddingTop: "6px",
@@ -90,7 +93,7 @@ const Tree = ({
             />
           )}
           <p
-            onContextMenu={handleContextForFiles}
+            onContextMenu={(e) => handleContextForFiles(e, data.path)}
             onDoubleClick={() => handleDoubleClick(data.path)}
             style={{
               fontSize: "15px",
@@ -115,6 +118,7 @@ const Tree = ({
             setY={setY}
             setContextForFileOpen={setContextForFileOpen}
             setContextForFolderOpen={setContextForFolderOpen}
+            setPath={setPath}
           />
         ))}
     </div>
@@ -133,16 +137,27 @@ export const FolderStructureComponent = () => {
   const [y, setY] = useState(null);
   const [contextForFolderOpen, setContextForFolderOpen] = useState(false);
   const [contextForFileOpen, setContextForFileOpen] = useState(false);
+  const [path, setPath] = useState(null);
 
   const ws = websocketStore((state) => state.ws);
 
   return (
     <>
       {contextForFileOpen && x && y && (
-        <ContextForFiles x={x} y={y} setOpen={setContextForFileOpen} />
+        <ContextForFiles
+          x={x}
+          y={y}
+          setOpen={setContextForFileOpen}
+          path={path}
+        />
       )}
       {contextForFolderOpen && x && y && (
-        <ContextForFolders x={x} y={y} setOpen={setContextForFolderOpen} />
+        <ContextForFolders
+          x={x}
+          y={y}
+          setOpen={setContextForFolderOpen}
+          path={path}
+        />
       )}
       {folderStructure && (
         <Tree
@@ -153,6 +168,7 @@ export const FolderStructureComponent = () => {
           setY={setY}
           setContextForFileOpen={setContextForFileOpen}
           setContextForFolderOpen={setContextForFolderOpen}
+          setPath={setPath}
         />
       )}
     </>
