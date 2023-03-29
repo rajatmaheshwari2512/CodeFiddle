@@ -49,11 +49,20 @@ wsForMonaco.on("connection", (ws, req) => {
         finalMessage.payload.path
       );
     });
+    ws.on("close", () => {
+      console.log("Connection Closed for monaco");
+    });
   }
 });
 
 wsForShell.on("connection", (ws, req, container) => {
   handleShellCreation(container, ws);
+  ws.on("close", () => {
+    container.remove({ force: true }, (err, data) => {
+      if (err) console.log(err);
+      else console.log(`Killed container ${container.id} with no error`);
+    });
+  });
 });
 
 server.on("upgrade", (req, socket, head) => {

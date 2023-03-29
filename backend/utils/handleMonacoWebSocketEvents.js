@@ -28,6 +28,38 @@ const handleMonacoWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
         }
       });
       break;
+    case "createFile":
+      if (fs.existsSync(pathToFileOrFolder)) {
+        const errMessage = {
+          type: "error",
+          payload: {
+            data: "File already exists",
+          },
+        };
+        ws.send(JSON.stringify(errMessage));
+      } else {
+        fs.writeFile(pathToFileOrFolder, "", (err) => {
+          if (err) {
+            console.log(err);
+            const errMessage = {
+              type: "error",
+              payload: {
+                data: "Could not create file",
+              },
+            };
+            ws.send(JSON.stringify(errMessage));
+          } else {
+            const successMessage = {
+              type: "createFile",
+              payload: {
+                path: pathToFileOrFolder,
+              },
+            };
+            ws.send(JSON.stringify(successMessage));
+          }
+        });
+      }
+      break;
     case "readFile":
       fs.readFile(pathToFileOrFolder, (err, data) => {
         if (err) {
@@ -67,6 +99,7 @@ const handleMonacoWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
             type: "deleteFile",
             payload: {
               data: "File deleted successfully",
+              path: pathToFileOrFolder,
             },
           };
           ws.send(JSON.stringify(successMessage));
@@ -89,6 +122,7 @@ const handleMonacoWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
             type: "createFolder",
             payload: {
               data: "Folder created successfully",
+              path: pathToFileOrFolder,
             },
           };
           ws.send(JSON.stringify(successMessage));
@@ -111,6 +145,7 @@ const handleMonacoWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
             type: "deleteFolder",
             payload: {
               data: "Folder deleted successfully",
+              path: pathToFileOrFolder,
             },
           };
           ws.send(JSON.stringify(successMessage));

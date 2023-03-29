@@ -40,6 +40,12 @@ export const Playground = () => {
         case "registerPort":
           const port = data.payload.port;
           setPort(port);
+        case "createFile":
+        case "createFolder":
+        case "deleteFile":
+        case "deleteFolder":
+          setFolderStructure(playgroundId);
+          break;
       }
     };
   };
@@ -53,14 +59,11 @@ export const Playground = () => {
             paddingTop: "0.2vh",
             minWidth: "250px",
             maxWidth: "25%",
-            // minWidth: "12vw",
-            // maxWidth: "15vw",
             height: "99.8vh",
             backgroundColor: "#22212c",
             fontFamily: "Roboto, sans-serif",
             overflow: "auto",
           }}
-          xxl={3}
         >
           <FolderStructureComponent />
         </div>
@@ -80,9 +83,7 @@ export const Playground = () => {
               </div>
               <ShellComponent />
             </div>
-            {/* <div> */}
             <BrowserComponent />
-            {/* </div> */}
           </Allotment>
         </div>
       </div>

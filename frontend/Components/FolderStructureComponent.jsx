@@ -13,7 +13,15 @@ import Expand from "../assets/expand.png";
 import { AiFillFile } from "react-icons/ai";
 import { IconPack } from "../assets/IconPack";
 
-const Tree = ({ data, ws, addOrUpdateAvailableTabs }) => {
+const Tree = ({
+  data,
+  ws,
+  addOrUpdateAvailableTabs,
+  setX,
+  setY,
+  setContextForFileOpen,
+  setContextForFolderOpen,
+}) => {
   const [visible, setVisible] = useState(true);
 
   const toggleVisibility = (name) => {
@@ -32,11 +40,25 @@ const Tree = ({ data, ws, addOrUpdateAvailableTabs }) => {
     ws.send(JSON.stringify(readFileRequest));
   };
 
+  const handleContextForFolders = (e) => {
+    e.preventDefault();
+    setContextForFolderOpen(true);
+    setX(e.clientX);
+    setY(e.clientY);
+  };
+
+  const handleContextForFiles = (e) => {
+    e.preventDefault();
+    setContextForFileOpen(true);
+    setX(e.clientX);
+    setY(e.clientY);
+  };
+
   return (
     <div style={{ paddingLeft: "10px", color: "white" }}>
       {data.children ? (
         <button
-          // onContextMenu={handleContextForFolders}
+          onContextMenu={handleContextForFolders}
           onClick={() => toggleVisibility(data.name)}
           style={{
             paddingTop: "6px",
@@ -68,7 +90,7 @@ const Tree = ({ data, ws, addOrUpdateAvailableTabs }) => {
             />
           )}
           <p
-            // onContextMenu={handleContextForFiles}
+            onContextMenu={handleContextForFiles}
             onDoubleClick={() => handleDoubleClick(data.path)}
             style={{
               fontSize: "15px",
@@ -89,6 +111,10 @@ const Tree = ({ data, ws, addOrUpdateAvailableTabs }) => {
             data={child}
             ws={ws}
             addOrUpdateAvailableTabs={addOrUpdateAvailableTabs}
+            setX={setX}
+            setY={setY}
+            setContextForFileOpen={setContextForFileOpen}
+            setContextForFolderOpen={setContextForFolderOpen}
           />
         ))}
     </div>
@@ -103,15 +129,32 @@ export const FolderStructureComponent = () => {
     (state) => state.addOrUpdateAvailableTabs
   );
 
+  const [x, setX] = useState(null);
+  const [y, setY] = useState(null);
+  const [contextForFolderOpen, setContextForFolderOpen] = useState(false);
+  const [contextForFileOpen, setContextForFileOpen] = useState(false);
+
   const ws = websocketStore((state) => state.ws);
 
   return (
-    folderStructure && (
-      <Tree
-        data={folderStructure}
-        ws={ws}
-        addOrUpdateAvailableTabs={addOrUpdateAvailableTabs}
-      />
-    )
+    <>
+      {contextForFileOpen && x && y && (
+        <ContextForFiles x={x} y={y} setOpen={setContextForFileOpen} />
+      )}
+      {contextForFolderOpen && x && y && (
+        <ContextForFolders x={x} y={y} setOpen={setContextForFolderOpen} />
+      )}
+      {folderStructure && (
+        <Tree
+          data={folderStructure}
+          ws={ws}
+          addOrUpdateAvailableTabs={addOrUpdateAvailableTabs}
+          setX={setX}
+          setY={setY}
+          setContextForFileOpen={setContextForFileOpen}
+          setContextForFolderOpen={setContextForFolderOpen}
+        />
+      )}
+    </>
   );
 };
