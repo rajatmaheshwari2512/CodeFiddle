@@ -49,9 +49,14 @@ export const Playground = () => {
         case "createFolder":
         case "deleteFile":
         case "deleteFolder":
+          // case "validateFolderStructure":
           setFolderStructure(playgroundId);
           setPath(null);
           setIsFile(-1);
+          break;
+        case "validateFolderStructure":
+          console.log(data);
+          setFolderStructure(playgroundId);
           break;
       }
     };

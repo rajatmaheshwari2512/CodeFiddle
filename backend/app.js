@@ -6,6 +6,7 @@ const logger = require("morgan");
 const { WebSocketServer } = require("ws");
 const querystring = require("querystring");
 const cors = require("cors");
+const chokidar = require("chokidar");
 
 const indexRouter = require("./routes/index");
 
@@ -40,6 +41,20 @@ wsForMonaco.on("connection", (ws, req) => {
   const params = querystring.parse(req.url.split("?")[1]);
   const playgroundId = params.playgroundId;
   if (playgroundId) {
+    const watcher = chokidar.watch(
+      `${__dirname}/playgrounds/${playgroundId}/`,
+      { persistent: true, ignoreInitial: true }
+    );
+    watcher.on("all", (event, path) => {
+      const message = {
+        type: "validateFolderStructure",
+        payload: {
+          data: null,
+          path: null,
+        },
+      };
+      ws.send(JSON.stringify(message));
+    });
     ws.on("message", (message) => {
       const finalMessage = JSON.parse(message.toString());
       handleMonacoWebSocketEvents(
@@ -49,7 +64,8 @@ wsForMonaco.on("connection", (ws, req) => {
         finalMessage.payload.path
       );
     });
-    ws.on("close", () => {
+    ws.on("close", async () => {
+      await watcher.close();
       console.log("Connection Closed for monaco");
     });
   }
