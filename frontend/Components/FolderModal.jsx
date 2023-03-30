@@ -7,10 +7,13 @@ import createFileOrFolderStore from "../Store/createFileOrFolderStore";
 
 export const FolderModal = () => {
   const [name, setName] = useState("");
-  const [open, setOpen] = useState(true);
 
   const ws = websocketStore((state) => state.ws);
   const path = createFileOrFolderStore((state) => state.path);
+  const isFile = createFileOrFolderStore((state) => state.isFile);
+
+  const setPath = createFileOrFolderStore((state) => state.setPath);
+  const setIsFile = createFileOrFolderStore((state) => state.setIsFile);
 
   const createFolder = (e) => {
     e.preventDefault();
@@ -23,17 +26,24 @@ export const FolderModal = () => {
         },
       })
     );
-    setOpen(false);
+    setName("");
   };
 
   return (
-    path && (
-      <Modal title="Create a Folder" open={open} onOk={createFolder}>
-        <Input
-          placeholder="Folder Name"
-          onChange={(e) => setName(e.target.value)}
-        />
-      </Modal>
-    )
+    <Modal
+      title="Create a Folder"
+      open={path && isFile === 0}
+      onOk={createFolder}
+      onCancel={() => {
+        setName("");
+        setPath(null);
+        setIsFile(-1);
+      }}
+    >
+      <Input
+        placeholder="Folder Name"
+        onChange={(e) => setName(e.target.value)}
+      />
+    </Modal>
   );
 };

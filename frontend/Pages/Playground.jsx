@@ -25,6 +25,8 @@ export const Playground = () => {
   const setActiveTab = activeTabStore((state) => state.setActiveTab);
   const setWs = websocketStore((state) => state.setWs);
   const setPort = portStore((state) => state.setPort);
+  const setPath = createFileOrFolderStore((state) => state.setPath);
+  const setIsFile = createFileOrFolderStore((state) => state.setIsFile);
 
   setFolderStructure(playgroundId);
 
@@ -48,6 +50,8 @@ export const Playground = () => {
         case "deleteFile":
         case "deleteFolder":
           setFolderStructure(playgroundId);
+          setPath(null);
+          setIsFile(-1);
           break;
       }
     };
@@ -57,6 +61,7 @@ export const Playground = () => {
     ws && (
       <>
         <FolderModal />
+        <FileModal />
         <div style={{ display: "flex" }}>
           <div
             style={{

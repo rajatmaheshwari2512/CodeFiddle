@@ -2,10 +2,16 @@ import createFileOrFolderStore from "../Store/createFileOrFolderStore";
 
 export const ContextForFolders = ({ setOpen, x, y, path }) => {
   const setPath = createFileOrFolderStore((state) => state.setPath);
+  const setIsFile = createFileOrFolderStore((state) => state.setIsFile);
 
   const createDirectory = (e) => {
-    console.log("here");
     setPath(path);
+    setIsFile(0);
+  };
+
+  const createFile = (e) => {
+    setPath(path);
+    setIsFile(1);
   };
 
   return (
@@ -37,6 +43,7 @@ export const ContextForFolders = ({ setOpen, x, y, path }) => {
         Create Folder
       </button>
       <button
+        onClick={createFile}
         style={{
           color: "white",
           backgroundColor: "#22212c",
