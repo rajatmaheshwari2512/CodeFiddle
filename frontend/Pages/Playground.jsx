@@ -45,18 +45,10 @@ export const Playground = () => {
         case "registerPort":
           const port = data.payload.port;
           setPort(port);
-        case "createFile":
-        case "createFolder":
-        case "deleteFile":
-        case "deleteFolder":
-          // case "validateFolderStructure":
+        case "validateFolderStructure":
           setFolderStructure(playgroundId);
           setPath(null);
           setIsFile(-1);
-          break;
-        case "validateFolderStructure":
-          console.log(data);
-          setFolderStructure(playgroundId);
           break;
       }
     };
@@ -69,6 +61,7 @@ export const Playground = () => {
         <FileModal />
         <div style={{ display: "flex" }}>
           <div
+            className="folder-structure-parent"
             style={{
               paddingRight: "10px",
               paddingTop: "0.2vh",
@@ -90,6 +83,7 @@ export const Playground = () => {
                   flexDirection: "column",
                   backgroundColor: "#282a36",
                   width: "100%",
+                  height: "100%",
                 }}
               >
                 <div style={{ borderBottom: "1px solid #bd93f9" }}>

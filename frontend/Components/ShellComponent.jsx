@@ -55,7 +55,6 @@ export const ShellComponent = () => {
       style={{
         height: "23vh",
         overflow: "auto",
-        scrollbarColor: "#282a36 white",
       }}
       ref={terminal}
       className="terminal"

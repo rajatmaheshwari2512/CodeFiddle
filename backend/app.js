@@ -46,14 +46,16 @@ wsForMonaco.on("connection", (ws, req) => {
       { persistent: true, ignoreInitial: true }
     );
     watcher.on("all", (event, path) => {
-      const message = {
-        type: "validateFolderStructure",
-        payload: {
-          data: null,
-          path: null,
-        },
-      };
-      ws.send(JSON.stringify(message));
+      if (event !== "change") {
+        const message = {
+          type: "validateFolderStructure",
+          payload: {
+            data: null,
+            path: null,
+          },
+        };
+        ws.send(JSON.stringify(message));
+      }
     });
     ws.on("message", (message) => {
       const finalMessage = JSON.parse(message.toString());

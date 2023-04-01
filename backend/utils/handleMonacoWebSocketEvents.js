@@ -49,13 +49,7 @@ const handleMonacoWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
             };
             ws.send(JSON.stringify(errMessage));
           } else {
-            const successMessage = {
-              type: "createFile",
-              payload: {
-                path: pathToFileOrFolder,
-              },
-            };
-            ws.send(JSON.stringify(successMessage));
+            ws.send("success");
           }
         });
       }
@@ -95,14 +89,7 @@ const handleMonacoWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
           };
           ws.send(JSON.stringify(errMessage));
         } else {
-          const successMessage = {
-            type: "deleteFile",
-            payload: {
-              data: "File deleted successfully",
-              path: pathToFileOrFolder,
-            },
-          };
-          ws.send(JSON.stringify(successMessage));
+          ws.send("success");
         }
       });
       break;
@@ -118,14 +105,7 @@ const handleMonacoWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
           };
           ws.send(JSON.stringify(errMessage));
         } else {
-          const successMessage = {
-            type: "createFolder",
-            payload: {
-              data: "Folder created successfully",
-              path: pathToFileOrFolder,
-            },
-          };
-          ws.send(JSON.stringify(successMessage));
+          ws.send("success");
         }
       });
       break;
@@ -141,14 +121,7 @@ const handleMonacoWebSocketEvents = (ws, type, data, pathToFileOrFolder) => {
           };
           ws.send(JSON.stringify(errMessage));
         } else {
-          const successMessage = {
-            type: "deleteFolder",
-            payload: {
-              data: "Folder deleted successfully",
-              path: pathToFileOrFolder,
-            },
-          };
-          ws.send(JSON.stringify(successMessage));
+          ws.send("success");
         }
       });
       break;
