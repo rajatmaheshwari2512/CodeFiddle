@@ -40,7 +40,7 @@ export const EditorButtonComponent = ({ path, isActive }) => {
       disabled={isActive}
       onClick={handleClick}
     >
-      {path.split("/").pop()}
+      {path.replace(/\\/g, "/").split("/").pop()}
     </button>
   );
 };
