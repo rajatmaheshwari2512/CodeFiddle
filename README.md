@@ -54,6 +54,12 @@ cd backend
 npm install
 ```
 
+Build the docker image
+
+```
+docker build -t ubuntu-user .
+```
+
 In the backend, create a directory named playgrounds
 
 ```
@@ -66,7 +72,7 @@ Run the frontend and backend
 cd frontend
 npm run dev
 cd backend
-npm run dev OR npm start
+npm start
 ```
 
 ## Roadmap
