@@ -58,7 +58,10 @@ const Tree = ({
     ws.send(JSON.stringify(readFileRequest));
   };
 
-  const handleContextForFolders = (e, path: string) => {
+  const handleContextForFolders = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    path: string
+  ) => {
     e.preventDefault();
     setContextForFolderOpen(true);
     setX(e.clientX);
@@ -66,7 +69,10 @@ const Tree = ({
     setPath(path);
   };
 
-  const handleContextForFiles = (e, path: string) => {
+  const handleContextForFiles = (
+    e: React.MouseEvent<HTMLParagraphElement>,
+    path: string
+  ) => {
     e.preventDefault();
     setContextForFileOpen(true);
     setX(e.clientX);

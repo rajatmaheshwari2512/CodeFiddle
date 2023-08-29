@@ -19,7 +19,7 @@ export const EditorComponent = () => {
       .then((data) => setTheme(data));
   }, []);
 
-  const handleChange = (value: string, e) => {
+  const handleChange = (value: string | undefined, e: any) => {
     if (eventToEmit !== null) clearTimeout(eventToEmit);
     eventToEmit = setTimeout(() => {
       const writeFile = {
@@ -29,7 +29,7 @@ export const EditorComponent = () => {
           path: activeTab?.path,
         },
       };
-      ws.send(JSON.stringify(writeFile));
+      ws?.send(JSON.stringify(writeFile));
     }, 2000);
   };
 
@@ -51,7 +51,7 @@ export const EditorComponent = () => {
         }}
         options={{
           readOnly: activeTab ? false : true,
-          fontSize: "14px",
+          fontSize: 14,
           fontFamily: "Droid Sans Mono",
         }}
       />

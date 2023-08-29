@@ -4,12 +4,12 @@ export const ContextForFolders = ({ setOpen, x, y, path }: any) => {
   const setPath = createFileOrFolderStore((state) => state.setPath);
   const setIsFile = createFileOrFolderStore((state) => state.setIsFile);
 
-  const createDirectory = (e) => {
+  const createDirectory = () => {
     setPath(path);
     setIsFile(0);
   };
 
-  const createFile = (e) => {
+  const createFile = () => {
     setPath(path);
     setIsFile(1);
   };

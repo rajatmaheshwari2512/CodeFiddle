@@ -15,7 +15,7 @@ export const FileModal = () => {
   const setPath = createFileOrFolderStore((state) => state.setPath);
   const setIsFile = createFileOrFolderStore((state) => state.setIsFile);
 
-  const createFolder = (e) => {
+  const createFolder = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     ws?.send(
       JSON.stringify({

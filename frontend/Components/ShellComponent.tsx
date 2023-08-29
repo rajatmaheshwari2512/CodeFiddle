@@ -36,7 +36,7 @@ export const ShellComponent = () => {
       fontSize: 16,
       fontFamily: "Ubuntu Mono, monospace",
     });
-    term.open(terminal.current);
+    term.open(terminal.current!);
     let fitAddon = new FitAddon();
     term.loadAddon(fitAddon);
     fitAddon.fit();

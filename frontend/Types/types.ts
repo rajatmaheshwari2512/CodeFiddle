@@ -13,7 +13,7 @@ export interface CreateFileOrFolderStoreState {
 
 export interface ActiveTabStoreState {
   activeTab: {
-    path: string | null;
+    path: string | undefined;
     extension: string | undefined;
     value: string;
   } | null;

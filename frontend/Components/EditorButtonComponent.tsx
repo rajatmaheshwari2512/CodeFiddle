@@ -1,7 +1,15 @@
 import websocketStore from "../Store/websocketStore";
 import availableTabsStore from "../Store/availableTabsStore";
 
-export const EditorButtonComponent = ({ path, isActive }) => {
+interface EditorButtonComponentProps {
+  path: string;
+  isActive: boolean;
+}
+
+export const EditorButtonComponent = ({
+  path,
+  isActive,
+}: EditorButtonComponentProps) => {
   const ws = websocketStore((state) => state.ws);
   const addOrUpdateAvailableTabs = availableTabsStore(
     (state) => state.addOrUpdateAvailableTabs
@@ -15,7 +23,7 @@ export const EditorButtonComponent = ({ path, isActive }) => {
         path: path,
       },
     };
-    ws.send(JSON.stringify(message));
+    ws?.send(JSON.stringify(message));
     addOrUpdateAvailableTabs(path);
   };
 
