@@ -43,7 +43,12 @@ wsForMonaco.on("connection", (ws, req) => {
   if (playgroundId) {
     const watcher = chokidar.watch(
       `${__dirname}/playgrounds/${playgroundId}/`,
-      { persistent: true, ignoreInitial: true }
+      {
+        persistent: true,
+        ignoreInitial: true,
+        ignored: (path) => path.includes("node_modules"),
+        awaitWriteFinish: { stabilityThreshold: 2000 },
+      }
     );
     watcher.on("all", (event, path) => {
       if (event !== "change") {

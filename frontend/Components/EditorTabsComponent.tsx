@@ -18,7 +18,11 @@ export const EditorTabsComponent = () => {
       {Object.keys(availableTabs).length > 0 &&
         Object.entries(availableTabs).map((entries) => {
           return (
-            <EditorButtonComponent path={entries[0]} isActive={entries[1]} />
+            <EditorButtonComponent
+              path={entries[0]}
+              isActive={entries[1]}
+              key={entries[0]}
+            />
           );
         })}
     </div>
