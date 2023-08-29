@@ -1,6 +1,8 @@
 import { create } from "zustand";
 
-const folderStructureStore = create((set) => ({
+import { FolderStructureStoreState } from "../Types/types";
+
+const folderStructureStore = create<FolderStructureStoreState>()((set) => ({
   folderStructure: null,
   setFolderStructure: async (playgroundId) => {
     const response = await fetch(
@@ -8,8 +10,6 @@ const folderStructureStore = create((set) => ({
     );
     set({ folderStructure: await response.json() });
   },
-  updateFolderStructure: (newFolderStructure) =>
-    set({ folderStructure: newFolderStructure }),
 }));
 
 export default folderStructureStore;

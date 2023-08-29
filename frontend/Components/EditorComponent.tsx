@@ -11,7 +11,7 @@ export const EditorComponent = () => {
 
   const [theme, setTheme] = useState(null);
 
-  let eventToEmit = null;
+  let eventToEmit: number | null = null;
 
   useEffect(() => {
     fetch("/Dracula.json")
@@ -19,14 +19,14 @@ export const EditorComponent = () => {
       .then((data) => setTheme(data));
   }, []);
 
-  const handleChange = (value, e) => {
-    clearTimeout(eventToEmit);
+  const handleChange = (value: string, e) => {
+    if (eventToEmit !== null) clearTimeout(eventToEmit);
     eventToEmit = setTimeout(() => {
       const writeFile = {
         type: "writeFile",
         payload: {
           data: value,
-          path: activeTab.path,
+          path: activeTab?.path,
         },
       };
       ws.send(JSON.stringify(writeFile));

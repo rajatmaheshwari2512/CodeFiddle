@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Dispatch } from "react";
 
 import { ContextForFiles } from "./ContextForFiles";
 import { ContextForFolders } from "./ContextForFolders";
@@ -13,6 +13,23 @@ import Expand from "../assets/expand.png";
 import { AiFillFile } from "react-icons/ai";
 import { IconPack } from "../assets/IconPack";
 
+import { FolderStructure } from "../Types/types";
+
+interface TreeProps {
+  data: FolderStructure;
+  ws: WebSocket;
+  addOrUpdateAvailableTabs: (path: string) => void;
+  setX: Dispatch<number>;
+  setY: Dispatch<number>;
+  setContextForFileOpen: (value: boolean) => void;
+  setContextForFolderOpen: (value: boolean) => void;
+  setPath: Dispatch<string>;
+}
+
+interface VisibleState {
+  [key: string]: boolean;
+}
+
 const Tree = ({
   data,
   ws,
@@ -22,14 +39,14 @@ const Tree = ({
   setContextForFileOpen,
   setContextForFolderOpen,
   setPath,
-}) => {
-  const [visible, setVisible] = useState(true);
+}: TreeProps) => {
+  const [visible, setVisible] = useState<VisibleState>({});
 
-  const toggleVisibility = (name) => {
+  const toggleVisibility = (name: string) => {
     setVisible({ ...visible, [name]: !visible[name] });
   };
 
-  const handleDoubleClick = (path) => {
+  const handleDoubleClick = (path: string) => {
     const readFileRequest = {
       type: "readFile",
       payload: {
@@ -41,7 +58,7 @@ const Tree = ({
     ws.send(JSON.stringify(readFileRequest));
   };
 
-  const handleContextForFolders = (e, path) => {
+  const handleContextForFolders = (e, path: string) => {
     e.preventDefault();
     setContextForFolderOpen(true);
     setX(e.clientX);
@@ -49,7 +66,7 @@ const Tree = ({
     setPath(path);
   };
 
-  const handleContextForFiles = (e, path) => {
+  const handleContextForFiles = (e, path: string) => {
     e.preventDefault();
     setContextForFileOpen(true);
     setX(e.clientX);
@@ -83,8 +100,8 @@ const Tree = ({
         </button>
       ) : (
         <div style={{ display: "flex", alignItems: "center" }}>
-          {IconPack.hasOwnProperty(data.name.split(".").pop()) ? (
-            IconPack[data.name.split(".").pop()]
+          {IconPack.hasOwnProperty(data.name.split(".").pop()!) ? (
+            IconPack[data.name.split(".").pop()!]
           ) : (
             <AiFillFile
               color="gray"
@@ -133,11 +150,11 @@ export const FolderStructureComponent = () => {
     (state) => state.addOrUpdateAvailableTabs
   );
 
-  const [x, setX] = useState(null);
-  const [y, setY] = useState(null);
+  const [x, setX] = useState<number | null>(null);
+  const [y, setY] = useState<number | null>(null);
   const [contextForFolderOpen, setContextForFolderOpen] = useState(false);
   const [contextForFileOpen, setContextForFileOpen] = useState(false);
-  const [path, setPath] = useState(null);
+  const [path, setPath] = useState<string>("");
 
   const ws = websocketStore((state) => state.ws);
 
@@ -162,7 +179,7 @@ export const FolderStructureComponent = () => {
       {folderStructure && (
         <Tree
           data={folderStructure}
-          ws={ws}
+          ws={ws!}
           addOrUpdateAvailableTabs={addOrUpdateAvailableTabs}
           setX={setX}
           setY={setY}

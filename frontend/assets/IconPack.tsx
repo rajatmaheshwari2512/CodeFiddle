@@ -7,7 +7,9 @@ import { RiCss3Fill } from "react-icons/ri";
 import { FcInfo } from "react-icons/fc";
 import { BsGit } from "react-icons/bs";
 
-export const IconPack = {
+import { IconPackInterface } from "../Types/types";
+
+export const IconPack: IconPackInterface = {
   json: (
     <VscJson color="#FFA500" display="block" style={{ marginTop: "7px" }} />
   ),

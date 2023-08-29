@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 
+//@ts-ignore:disable-next-line
 import { Allotment } from "allotment";
 
 import { FolderStructureComponent } from "../Components/FolderStructureComponent";
@@ -28,7 +29,7 @@ export const Playground = () => {
   const setPath = createFileOrFolderStore((state) => state.setPath);
   const setIsFile = createFileOrFolderStore((state) => state.setIsFile);
 
-  setFolderStructure(playgroundId);
+  if (playgroundId) setFolderStructure(playgroundId);
 
   const ws = new WebSocket("ws://localhost:3000/?playgroundId=" + playgroundId);
 
@@ -45,8 +46,9 @@ export const Playground = () => {
         case "registerPort":
           const port = data.payload.port;
           setPort(port);
+          break;
         case "validateFolderStructure":
-          setFolderStructure(playgroundId);
+          if (playgroundId) setFolderStructure(playgroundId);
           setPath(null);
           setIsFile(-1);
           break;

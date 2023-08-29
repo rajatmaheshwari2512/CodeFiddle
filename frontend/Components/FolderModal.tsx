@@ -5,7 +5,7 @@ import { Input, Modal } from "antd";
 import websocketStore from "../Store/websocketStore";
 import createFileOrFolderStore from "../Store/createFileOrFolderStore";
 
-export const FileModal = () => {
+export const FolderModal = () => {
   const [name, setName] = useState("");
 
   const ws = websocketStore((state) => state.ws);
@@ -17,9 +17,9 @@ export const FileModal = () => {
 
   const createFolder = (e) => {
     e.preventDefault();
-    ws.send(
+    ws?.send(
       JSON.stringify({
-        type: "createFile",
+        type: "createFolder",
         payload: {
           path: path + "/" + name,
           data: null,
@@ -31,8 +31,8 @@ export const FileModal = () => {
 
   return (
     <Modal
-      title="Create a File"
-      open={path && isFile === 1}
+      title="Create a Folder"
+      open={Boolean(path && isFile === 0)}
       onOk={createFolder}
       onCancel={() => {
         setName("");
@@ -41,7 +41,7 @@ export const FileModal = () => {
       }}
     >
       <Input
-        placeholder="File Name"
+        placeholder="Folder Name"
         onChange={(e) => setName(e.target.value)}
       />
     </Modal>

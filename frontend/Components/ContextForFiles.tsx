@@ -1,4 +1,16 @@
-export const ContextForFiles = ({ setOpen, x, y }) => {
+interface ContextForFilesProps {
+  setOpen: (value: boolean) => void;
+  x: number;
+  y: number;
+  path: string;
+}
+
+export const ContextForFiles = ({
+  setOpen,
+  x,
+  y,
+  path,
+}: ContextForFilesProps) => {
   return (
     <div
       onMouseLeave={() => {

@@ -1,6 +1,8 @@
 import { create } from "zustand";
 
-const activeTabStore = create((set) => ({
+import { ActiveTabStoreState } from "../Types/types";
+
+const activeTabStore = create<ActiveTabStoreState>()((set) => ({
   activeTab: null,
   setActiveTab: (path, extension, value) =>
     set({ activeTab: { path: path, extension: extension, value: value } }),

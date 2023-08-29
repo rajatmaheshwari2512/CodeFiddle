@@ -1,6 +1,8 @@
 import { create } from "zustand";
 
-const shellSocketStore = create((set) => ({
+import { ShellSocketStoreState } from "../Types/types";
+
+const shellSocketStore = create<ShellSocketStoreState>()((set) => ({
   wsForShell: null,
   setWs: (ws) => set({ wsForShell: ws }),
 }));
