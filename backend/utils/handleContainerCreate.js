@@ -6,7 +6,7 @@ const docker = new Docker();
 const handleContainerCreate = (playgroundId, wsForShell, req, socket, head) => {
   docker.createContainer(
     {
-      Image: "ubuntu-user",
+      Image: "codefiddle",
       // name: playgroundId,
       AttachStderr: true,
       AttachStdin: true,

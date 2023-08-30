@@ -57,7 +57,7 @@ npm install
 Build the docker image
 
 ```
-docker build -t ubuntu-user .
+docker build -t codefiddle .
 ```
 
 In the backend, create a directory named playgrounds
