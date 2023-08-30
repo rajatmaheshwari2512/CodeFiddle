@@ -14,13 +14,13 @@ const handleContainerCreate = (playgroundId, wsForShell, req, socket, head) => {
       Cmd: "/bin/bash".split(" "),
       Tty: true,
       Volumes: {
-        "/home/rajat/code": {},
+        "/home/codefiddle/code": {},
       },
       HostConfig: {
         Binds: [
           `${path.resolve(
             __dirname + "/../playgrounds/" + playgroundId + "/code"
-          )}:/home/rajat/code`,
+          )}:/home/codefiddle/code`,
         ],
         PortBindings: {
           "5173/tcp": [{ HostPort: "0" }],
