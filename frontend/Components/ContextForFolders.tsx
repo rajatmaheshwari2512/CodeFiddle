@@ -1,6 +1,13 @@
 import createFileOrFolderStore from "../Store/createFileOrFolderStore";
 
-export const ContextForFolders = ({ setOpen, x, y, path }: any) => {
+import { ContextForFoldersProps } from "../Types/types";
+
+export const ContextForFolders = ({
+  setOpen,
+  x,
+  y,
+  path,
+}: ContextForFoldersProps) => {
   const setPath = createFileOrFolderStore((state) => state.setPath);
   const setIsFile = createFileOrFolderStore((state) => state.setIsFile);
 

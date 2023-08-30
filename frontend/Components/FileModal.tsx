@@ -1,3 +1,5 @@
+// This should ideally be a HOC but I'm too lazy to do it.
+
 import { useState } from "react";
 
 import { Input, Modal } from "antd";

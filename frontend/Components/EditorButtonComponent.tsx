@@ -1,10 +1,7 @@
 import websocketStore from "../Store/websocketStore";
 import availableTabsStore from "../Store/availableTabsStore";
 
-interface EditorButtonComponentProps {
-  path: string;
-  isActive: boolean;
-}
+import { EditorButtonComponentProps } from "../Types/types";
 
 export const EditorButtonComponent = ({
   path,

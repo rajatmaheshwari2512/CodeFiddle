@@ -1,8 +1,8 @@
+import { Dispatch, ReactElement } from "react";
+
 /**
  * Interfaces for the Zustand stores
  */
-
-import { ReactElement } from "react";
 
 export interface CreateFileOrFolderStoreState {
   path: string | null;
@@ -63,4 +63,42 @@ export interface WebsocketStoreState {
 
 export interface IconPackInterface {
   [key: string]: ReactElement;
+}
+
+/**
+ * Interfaces for Props
+ */
+
+export interface ContextForFilesProps {
+  setOpen: (value: boolean) => void;
+  x: number;
+  y: number;
+  path: string;
+}
+
+export interface ContextForFoldersProps {
+  setOpen: (value: boolean) => void;
+  x: number;
+  y: number;
+  path: string;
+}
+
+export interface EditorButtonComponentProps {
+  path: string;
+  isActive: boolean;
+}
+
+export interface TreeProps {
+  data: FolderStructure;
+  ws: WebSocket;
+  addOrUpdateAvailableTabs: (path: string) => void;
+  setX: Dispatch<number>;
+  setY: Dispatch<number>;
+  setContextForFileOpen: Dispatch<boolean>;
+  setContextForFolderOpen: Dispatch<boolean>;
+  setPath: Dispatch<string>;
+}
+
+export interface VisibleState {
+  [key: string]: boolean;
 }

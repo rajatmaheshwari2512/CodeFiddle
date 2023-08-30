@@ -1,9 +1,4 @@
-interface ContextForFilesProps {
-  setOpen: (value: boolean) => void;
-  x: number;
-  y: number;
-  path: string;
-}
+import { ContextForFilesProps } from "../Types/types";
 
 export const ContextForFiles = ({
   setOpen,

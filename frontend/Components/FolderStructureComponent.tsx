@@ -1,4 +1,4 @@
-import { useState, Dispatch } from "react";
+import { useState } from "react";
 
 import { ContextForFiles } from "./ContextForFiles";
 import { ContextForFolders } from "./ContextForFolders";
@@ -13,22 +13,7 @@ import Expand from "../assets/expand.png";
 import { AiFillFile } from "react-icons/ai";
 import { IconPack } from "../assets/IconPack";
 
-import { FolderStructure } from "../Types/types";
-
-interface TreeProps {
-  data: FolderStructure;
-  ws: WebSocket;
-  addOrUpdateAvailableTabs: (path: string) => void;
-  setX: Dispatch<number>;
-  setY: Dispatch<number>;
-  setContextForFileOpen: (value: boolean) => void;
-  setContextForFolderOpen: (value: boolean) => void;
-  setPath: Dispatch<string>;
-}
-
-interface VisibleState {
-  [key: string]: boolean;
-}
+import { TreeProps, VisibleState } from "../Types/types";
 
 const Tree = ({
   data,
